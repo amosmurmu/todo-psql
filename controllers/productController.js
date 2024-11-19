@@ -1,10 +1,10 @@
-const pool = require("../database/db");
+const product = require("../models/productModel");
 
 exports.getProducts = async (req, res) => {
   try {
     // console.log(DATA);
-    const result = await pool.query("SELECT * FROM products");
-    res.render("products", { title: "Product List", DATA: result.rows });
+    const result = await product.getAllProducts();
+    res.render("products", { title: "Product List", DATA: result });
   } catch (err) {
     console.error(err);
     res.status(500).send("SERVER ERROR");
@@ -14,10 +14,7 @@ exports.getProducts = async (req, res) => {
 exports.addProduct = async (req, res) => {
   const { title, description } = req.body;
   try {
-    await pool.query(
-      "INSERT INTO products (title, description) VALUES ($1,$2)",
-      [title, description]
-    );
+    const newProduct = await product.addProduct(title, description);
     res.redirect("/products");
   } catch (err) {
     console.error(err);
