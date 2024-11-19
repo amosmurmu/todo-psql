@@ -1,0 +1,18 @@
+extends layout 
+
+block content 
+    h1 Products List
+    ul 
+        each val in DATA 
+            li= val.title    
+    form(action="/products", method="POST" onsubmit="console.log('Form Submitted')")
+    
+        div
+            label(for="title") Title of Product
+            input(type="text" id="title" name="title" required)
+        div 
+            label(for="description") Product Description
+            input(type="text" id="description" name="description" required)
+        div 
+            button(type="submit") Add Product
+
